@@ -3,7 +3,8 @@
 ## Introduction
 
 Expanding on the [snowboy](https://snowboy.kitt.ai/]) demo to provide an easy way to utilize multiple hotword detection models in a user specified directory
-Groundwork projet with plans to expand greater functionality - will eventually be integrated into slack or hue to get attention of open office coworkers who are wearing noise cancelling headphones
+
+Groundwork project with plans to expand greater functionality - will eventually be integrated into slack or hue to get attention of open office coworkers who are wearing noise cancelling headphones
 
 ## Dependencies
 
