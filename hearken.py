@@ -1,4 +1,30 @@
 import ConfigParser, os, importlib
+import sys
+import signal
+
+
+#################################
+# Check for interrupt signal
+#################################
+
+interrupted = False
+
+def signal_handler(signal, frame):
+    global interrupted
+    interrupted = True
+
+
+def interrupt_callback():
+    global interrupted
+    return interrupted
+
+# capture SIGINT signal, e.g., Ctrl+C
+signal.signal(signal.SIGINT, signal_handler)
+
+
+#################################
+# Load from conf file
+#################################
 
 DEFAULT_MODULE = 'basic_ding'
 CONF_FILE_NAME = 'hearken.conf'
@@ -12,6 +38,7 @@ SELECTED_MODULE = DEFAULT_MODULE
 config = ConfigParser.SafeConfigParser()
 
 # TODO: Allow for overwrite of conf file to use, with argparser
+# TODO: Allow for sensitivity setting
 
 # Create .conf file with defaults if it doesn't exist
 if not os.path.exists(CONF_FILE_NAME):
@@ -37,7 +64,8 @@ except ImportError:
 	print "MODULE: " + SELECTED_MODULE + " does not exist. Please specify valid module."
 	quit()
 
-print "HOTWORD_COUNT_THRESHHOLD: ",HOTWORD_COUNT_THRESHHOLD
+print "HOTWORD_COUNT_THRESHHOLD: ", HOTWORD_COUNT_THRESHHOLD
 print "LOADED MODULE: " + SELECTED_MODULE
 
 # TODO: Run SETUP and LISTEN commands to start the app
+
