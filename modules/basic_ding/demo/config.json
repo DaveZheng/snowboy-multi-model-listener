@@ -1,20 +1,3 @@
-/*
-
-	Structure: 
-
-	{
-		"name": Aliased name of the target,
-		"model": associated model of object
-		"action": associated action of object
-	}
-	
-	Actions available if hotword detection crosses threshhold:
-
-	1. ding - makes a "ding" noise
-	2. dong - makes a "dong" noise
-
-*/
-
 [
 	{
 		"name": "Alexa",
@@ -24,6 +7,6 @@
 	{
 		"name": "Snow Boy",
 		"model": "snowboy.umdl",
-		"action": "ding"
+		"action": "dong"
 	}
 ]

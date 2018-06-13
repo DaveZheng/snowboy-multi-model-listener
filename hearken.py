@@ -71,20 +71,31 @@ print "HOTWORD_COUNT_THRESHHOLD: ", HOTWORD_COUNT_THRESHHOLD
 print "LOADED MODULE: " + SELECTED_MODULE
 print "ENVIRONMENT: " + ENV
 
-# TODO: SETUP callbacks and LISTEN commands to start the app
+#################################
+# Load module models and 
+# action callbacks
+#################################
 
-models = mod.loadModels(ENV)
-callbacks = mod.loadCallbacks(models)
-
+module_load = mod.load_module(ENV)
+models = module_load[0]
+callbacks = module_load[1]
 
 # TODO: Allow for sensitivity setting
-
 sensitivity = [0.5]*len(models)
 
 # Arm the hotword detector
 detector = snowboydecoder.HotwordDetector(models, sensitivity=sensitivity)
 
+
+#################################
+# Start listening
+#################################
+
+
 print 'Listening... Press Ctrl+C to exit'
+
+# TODO: utilize the hotword count threshhold
+# TODO: sleep_time into environment variable
 
 # main loop
 detector.start(detected_callback=callbacks,
