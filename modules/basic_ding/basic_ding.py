@@ -7,8 +7,6 @@ MODULE_PATH = os.path.dirname(__file__)
 
 # TODO: extend an abstract class with loadModels and loadCallbacks
 
-# TODO: Setup and Run commands 
-
 def loadModels(pEnv):
 
 	try:
@@ -35,6 +33,8 @@ def loadModels(pEnv):
 	
 	return [os.path.join(env_dir, f) for f in model_files]
 
+
+# TODO: add routing to different callback actions
 
 def loadCallbacks(pModels):
 
