@@ -32,7 +32,7 @@ CONF_FILE_NAME = 'hearken.conf'
 ENV = 'demo'
 
 # Count of hotwords said in short amount of time before firing action
-HOTWORD_COUNT_THRESHHOLD = 2
+HOTWORD_COUNT_THRESHOLD = 2
 
 # Selected module
 SELECTED_MODULE = DEFAULT_MODULE
@@ -46,14 +46,14 @@ if not os.path.exists(CONF_FILE_NAME):
 	print ".conf file does not exist. generating default conf"
 	config.add_section('APP_RUNTIME')
 	config.set('APP_RUNTIME', 'SELECTED_MODULE', SELECTED_MODULE)
-	config.set('APP_RUNTIME', 'HOTWORD_COUNT_THRESHHOLD', '2')
+	config.set('APP_RUNTIME', 'HOTWORD_COUNT_THRESHOLD', '2')
 	config.set('APP_RUNTIME', 'ENV', ENV)
 	config.write(open(CONF_FILE_NAME, 'w'))
 
 # Read existing conf and load the module
 else:
 	config.read(CONF_FILE_NAME)
-	HOTWORD_COUNT_THRESHHOLD = config.getint('APP_RUNTIME', 'HOTWORD_COUNT_THRESHHOLD')
+	HOTWORD_COUNT_THRESHOLD = config.getint('APP_RUNTIME', 'HOTWORD_COUNT_THRESHOLD')
 	SELECTED_MODULE = config.get('APP_RUNTIME', 'SELECTED_MODULE')
 	ENV = config.get('APP_RUNTIME', 'ENV')
 
@@ -67,9 +67,9 @@ except ImportError:
 	print "MODULE: " + SELECTED_MODULE + " does not exist. Please specify valid module."
 	quit()
 
-print "HOTWORD_COUNT_THRESHHOLD: ", HOTWORD_COUNT_THRESHHOLD
-print "LOADED MODULE: " + SELECTED_MODULE
-print "ENVIRONMENT: " + ENV
+print "HOTWORD_COUNT_THRESHOLD: ", HOTWORD_COUNT_THRESHOLD
+print "LOADED MODULE: ", SELECTED_MODULE
+print "ENVIRONMENT: ", ENV
 
 #################################
 # Load module models and 
@@ -94,12 +94,13 @@ detector = snowboydecoder.HotwordDetector(models, sensitivity=sensitivity)
 
 print 'Listening... Press Ctrl+C to exit'
 
-# TODO: utilize the hotword count threshhold
+# TODO: utilize the hotword count threshold
 # TODO: sleep_time into environment variable
 
 # main loop
 detector.start(detected_callback=callbacks,
                interrupt_check=interrupt_callback,
-               sleep_time=0.03)
+               sleep_time=0.03,
+               count_threshold=HOTWORD_COUNT_THRESHOLD)
 
 detector.terminate()

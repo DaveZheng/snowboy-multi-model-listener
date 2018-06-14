@@ -5,8 +5,6 @@ import pyaudio
 import time
 import wave
 
-import pprint
-
 from common import snowboydecoder
 
 MODULE_PATH = os.path.dirname(__file__)
@@ -15,7 +13,7 @@ CONFIG_FILE_NAME = "config.json"
 # Sound resource files
 
 DETECT_DING = os.path.join(MODULE_PATH, "resources/ding.wav")
-DETECT_DING = os.path.join(MODULE_PATH, "resources/dong.wav")
+DETECT_DONG = os.path.join(MODULE_PATH, "resources/dong.wav")
 
 # TODO: extend an abstract class with load_models and loadCallbacks
 
@@ -65,13 +63,15 @@ def load_module(pEnv):
 		with open(env_file) as f:
 			config = json.load(f)
 
-			pp = pprint.PrettyPrinter(indent=4)
-			pp.pprint(config)
-			print config[0].name
+			actions = []
 
-			# TODO: add routing to different callback actions
+			for i in config:
+				if i["action"] == "dong":
+					actions.append(lambda: module_action(DETECT_DING))
+				else:
+					actions.append(lambda: module_action(DETECT_DONG))
 
-			return [models, [lambda: module_action(DETECT_DING) for model in models]]
+			return [models, actions]
 
 	except:
 		print "Unexpected error:", sys.exc_info()[0]
